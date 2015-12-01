@@ -1,5 +1,4 @@
 # Pygame and system modules
-import sys
 import pygame
 from pygame.locals import *
 from . import window
@@ -8,21 +7,21 @@ from . import gameobject
 # Initializes pygame's modules
 pygame.init()
 
-# Loads an image (with colorkey and alpha)
+
 def load_image(name, colorkey=None, alpha=False):
     """loads an image into memory"""
     image = pygame.image.load(name)
-    if alpha:image = image.convert_alpha()
-    else:image=image.convert()
-    if colorkey is not None:
+    image = image.convert_alpha() if alpha else image.convert()
+    if colorkey:
         if colorkey is -1:
-            colorkey = image.get_at((0,0))
+            colorkey = image.get_at((0, 0))
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
-        
-"""GameImage is the base class to deal with images"""
+
+
 class GameImage(gameobject.GameObject):
     """
+    GameImage is the base class to deal with images
     Creates a GameImage from the specified file.
     The width and height are obtained based on the image file.
     """
@@ -38,9 +37,6 @@ class GameImage(gameobject.GameObject):
         # Size
         self.width = self.rect.width
         self.height = self.rect.height
-
-        
-        
 
     """Draws the image on the screen"""
     def draw(self):

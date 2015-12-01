@@ -1,19 +1,17 @@
 # coding= utf-8
 
 # Pygame and System Modules
-import sys
 import time
 import pygame
 from . import window
 from . import gameimage
-from pygame.locals import *
 
 # Initializes pygame's modules
 pygame.init()
 
-"""An Animation class for frame-control."""
+
 class Animation(gameimage.GameImage):
-    """
+    """An Animation class for frame-control.
     Creates an Animation that is composed by N frames.
     The method set_sequence_time must be called right after.
     Must note that the nnumber of frames will be automatically
@@ -25,7 +23,7 @@ class Animation(gameimage.GameImage):
         gameimage.GameImage.__init__(self, image_file)
 
         # A Cast to force it to be a float division
-        self.width = self.width/float(total_frames)  # The width of each frame
+        self.width /= float(total_frames)  # The width of each frame
         self.height = self.height
 
         # Playing Control
@@ -48,7 +46,7 @@ class Animation(gameimage.GameImage):
         self.set_sequence(0, self.total_frames, self.loop)
 
         
-    #-----------------------SEQUENCE SETTERS-----------------
+    # SEQUENCE SETTERS
     """
     Sets some aspects of the sequence, init/final frame, loop..
     """
@@ -73,31 +71,31 @@ class Animation(gameimage.GameImage):
         for x in range(0, self.total_frames):
             self.frame_duration.append(time_frame)
 
-    #-----------------------DRAW&UPDATE METHODS--------------------
+    # DRAW&UPDATE METHODS
     """Method responsible for performing the change of frames."""
     def update(self):
-        if(self.playing):
+        if self.playing:
             time_ms = int(round(time.time() * 1000)) #gets the curr time in ms
-            if((time_ms - self.last_time > self.frame_duration[self.curr_frame])
-               and (self.final_frame != 0)):
+            if (time_ms - self.last_time > self.frame_duration[self.curr_frame]) and (self.final_frame != 0):
                 self.curr_frame += 1
                 self.last_time = time_ms
-            if((self.curr_frame == self.final_frame) and (self.loop)):
+            if (self.curr_frame == self.final_frame) and (self.loop):
                 self.curr_frame = self.initial_frame
             else:
-                if((not self.loop) and (self.curr_frame + 1 >= self.final_frame)):
+                if (not self.loop) and (self.curr_frame + 1 >= self.final_frame):
                     self.curr_frame = self.final_frame - 1
                     self.playing = False
             
     """Draws the current frame on the screen."""
     def draw(self):
-        if(self.drawable):
+        if self.drawable:
             # Clips the frame (rect on the image)
-            clip_rect = pygame.Rect(self.curr_frame*self.width,
-                                    0,
-                                    self.width,
-                                    self.height
-                                    )
+            clip_rect = pygame.Rect(
+                self.curr_frame * self.width,
+                0,
+                self.width,
+                self.height
+            )
 
             # Updates the pygame rect based on new positions values
             self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -106,7 +104,7 @@ class Animation(gameimage.GameImage):
             window.Window.get_screen().blit(self.image, self.rect, area=clip_rect)
         
     
-    #----------------------PLAYING CONTROL METHODS----------------------
+    # PLAYING CONTROL METHODS
     """Stops execution and puts the initial frame as the current frame."""
     def stop(self):
         self.curr_frame = self.initial_frame
@@ -140,7 +138,7 @@ class Animation(gameimage.GameImage):
     def unhide(self):
         self.drawable = True
 
-    #----------------GETTER&SETTER METHODS----------------       
+    # GETTER&SETTER METHODS
     """Gets the total duration - sum of all time frames."""
     def get_total_duration(self):
         return self.total_duration
@@ -168,4 +166,3 @@ class Animation(gameimage.GameImage):
     """Gets the current frame that will be drawn."""
     def get_curr_frame(self):
         return self.curr_frame
-    

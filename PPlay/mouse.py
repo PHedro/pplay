@@ -1,15 +1,13 @@
 # coding= utf-8
 
 import pygame
-from pygame.locals import *
 from .point import *
-
-# -*- coding: utf-8 -*-
 
 # Initializes pygame's modules
 pygame.init()
 
-class Mouse():
+
+class Mouse:
     def __init__(self):
         self.BUTTON_LEFT = 1
         self.BUTTON_MIDDLE = 2
@@ -25,7 +23,7 @@ class Mouse():
 
     """Defines the mouse's new position."""
     def set_position(self, x, y):
-        pygame.mouse.set_pos([x,y])
+        pygame.mouse.set_pos([x, y])
 
     """Hides the mouse."""
     def hide(self):
@@ -51,10 +49,7 @@ class Mouse():
     """
     def is_button_pressed(self, button):
         pressed_buttons = pygame.mouse.get_pressed()
-        if(pressed_buttons[button-1] == 1):
-            return True
-        else:
-            return False            
+        return pressed_buttons[button-1] == 1
 
     """Returns a boolean if the mouse is over an area."""
     def is_over_area(self, start_point, end_point):
@@ -73,9 +68,10 @@ class Mouse():
         
     """Returns if the mouse is over a game_object."""
     def is_over_object(self, game_object):
-        return self.is_over_area([game_object.x, game_object.y],
-                            [game_object.x + game_object.width,
-                             game_object.y + game_object.height])
+        return self.is_over_area(
+            [game_object.x, game_object.y],
+            [game_object.x + game_object.width, game_object.y + game_object.height]
+        )
 
     """Returns a boolean if the mouse is over the game screen."""
     def is_on_screen(self):
@@ -83,7 +79,7 @@ class Mouse():
 
     """Returns a boolean if the mouse is NOT over the game screen."""
     def is_off_screen(self):
-        return (not pygame.mouse.get_focused())
+        return not pygame.mouse.get_focused()
 
     """
     Returns the amount of mouse relative-movement since
@@ -91,10 +87,3 @@ class Mouse():
     """
     def delta_movement(self):
         return pygame.mouse.get_rel()
-
-    # Mouse drag?
-
-    
-        
-
-        
